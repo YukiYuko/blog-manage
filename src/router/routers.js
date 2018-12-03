@@ -410,7 +410,8 @@ export default [
     path: '/news',
     name: 'news',
     meta: {
-      hideInBread: true
+      icon: 'logo-buffer',
+      title: '新闻'
     },
     component: Main,
     children: [
@@ -422,6 +423,15 @@ export default [
           title: '新闻列表'
         },
         component: () => import('@/view/news/news.vue')
+      },
+      {
+        path: 'news_publish',
+        name: '发布新闻',
+        meta: {
+          icon: 'ios-navigate',
+          title: '新闻列表详情'
+        },
+        component: () => import('@/view/news/edit.vue')
       }
     ]
   },

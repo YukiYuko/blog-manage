@@ -40,5 +40,6 @@ export default {
   message_page: '消息中心',
   tree_table_page: '树状表格',
   // 以下为新增
+  news: '新闻',
   news_page: '新闻列表'
 }
