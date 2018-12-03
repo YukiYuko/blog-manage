@@ -6,9 +6,21 @@ export const getTableData = req => {
   let tableData = []
   doCustomTimes(5, () => {
     tableData.push(Mock.mock({
-      name: '@name',
-      email: '@email',
-      createTime: '@date'
+      title: '@cparagraph',
+      content: '@cparagraph',
+      createTime: '@date',
+      'tags|1-5': [
+        {
+          'name|+1': [
+            'js',
+            'css',
+            'html',
+            'nodejs',
+            'vue'
+          ]
+        }
+      ],
+      createAuthor: '@name'
     }))
   })
   return tableData

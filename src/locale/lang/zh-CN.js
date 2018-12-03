@@ -38,5 +38,7 @@ export default {
   params: '动态路由',
   cropper_page: '图片裁剪',
   message_page: '消息中心',
-  tree_table_page: '树状表格'
+  tree_table_page: '树状表格',
+  // 以下为新增
+  news_page: '新闻列表'
 }

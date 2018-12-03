@@ -405,6 +405,27 @@ export default [
       }
     ]
   },
+  // 以下为新增*********************
+  {
+    path: '/news',
+    name: 'news',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'news_page',
+        name: 'news_page',
+        meta: {
+          icon: 'ios-navigate',
+          title: '新闻列表'
+        },
+        component: () => import('@/view/news/news.vue')
+      }
+    ]
+  },
+  // 以上为新增*********************
   {
     path: '/argu',
     name: 'argu',
