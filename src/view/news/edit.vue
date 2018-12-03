@@ -24,6 +24,7 @@
 </template>
 <script>
 import { tags } from '../../const/index'
+import {createNews} from '../../api/news'
 export default {
   data () {
     return {
@@ -74,6 +75,14 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.$Message.success('Success!')
+          let data = {
+            title: this.formValidate.title,
+            content: this.formValidate.content,
+            tags: this.formValidate.tags
+          }
+          createNews(data).then((res) => {
+            console.log(res)
+          })
         } else {
           this.$Message.error('Fail!')
         }
