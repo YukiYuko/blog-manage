@@ -2,76 +2,45 @@
   <div class="news-edit">
     <Card>
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-        <FormItem label="Name" prop="name">
-          <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
+        <FormItem label="标题" prop="title">
+          <Input v-model="formValidate.title" placeholder="请输入标题"></Input>
         </FormItem>
-        <FormItem label="E-mail" prop="mail">
-          <Input v-model="formValidate.mail" placeholder="Enter your e-mail"></Input>
-        </FormItem>
-        <FormItem label="City" prop="city">
-          <Select v-model="formValidate.city" placeholder="Select your city">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="Date">
-          <Row>
-            <Col span="11">
-              <FormItem prop="date">
-                <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
-              </FormItem>
-            </Col>
-            <Col span="2" style="text-align: center">-</Col>
-            <Col span="11">
-              <FormItem prop="time">
-                <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
-              </FormItem>
-            </Col>
-          </Row>
-        </FormItem>
-        <FormItem label="Gender" prop="gender">
-          <RadioGroup v-model="formValidate.gender">
-            <Radio label="male">Male</Radio>
-            <Radio label="female">Female</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="Hobby" prop="interest">
-          <CheckboxGroup v-model="formValidate.interest">
-            <Checkbox label="Eat"></Checkbox>
-            <Checkbox label="Sleep"></Checkbox>
-            <Checkbox label="Run"></Checkbox>
-            <Checkbox label="Movie"></Checkbox>
+        <FormItem label="标签" prop="tags">
+          <CheckboxGroup v-model="formValidate.tags">
+            <Checkbox :label="item.name" v-for="(item, index) in tags" :key="index"></Checkbox>
           </CheckboxGroup>
         </FormItem>
-        <FormItem label="Desc" prop="desc">
-          <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+        <FormItem label="内容" prop="content">
+          <Input v-model="formValidate.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                 placeholder="请输入内容"></Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-          <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+          <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+          <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
         </FormItem>
       </Form>
     </Card>
   </div>
 </template>
 <script>
+import { tags } from '../../const/index'
 export default {
   data () {
     return {
+      tags: tags,
       formValidate: {
-        name: '',
+        title: '',
         mail: '',
         city: '',
         gender: '',
-        interest: [],
+        tags: [],
         date: '',
         time: '',
-        desc: ''
+        content: ''
       },
       ruleValidate: {
-        name: [
-          { required: true, message: 'The name cannot be empty', trigger: 'blur' }
+        title: [
+          { required: true, message: '标题不能为空', trigger: 'blur' }
         ],
         mail: [
           { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
@@ -83,9 +52,9 @@ export default {
         gender: [
           { required: true, message: 'Please select gender', trigger: 'change' }
         ],
-        interest: [
-          { required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change' },
-          { type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change' }
+        tags: [
+          { required: true, type: 'array', min: 1, message: '至少选择一个标签', trigger: 'change' },
+          { type: 'array', max: 5, message: '最多只能选择五个标签', trigger: 'change' }
         ],
         date: [
           { required: true, type: 'date', message: 'Please select the date', trigger: 'change' }
@@ -93,9 +62,9 @@ export default {
         time: [
           { required: true, type: 'string', message: 'Please select time', trigger: 'change' }
         ],
-        desc: [
-          { required: true, message: 'Please enter a personal introduction', trigger: 'blur' },
-          { type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur' }
+        content: [
+          { required: true, message: '请输入内容', trigger: 'blur' },
+          { type: 'string', min: 20, message: '不能少于20字', trigger: 'blur' }
         ]
       }
     }
