@@ -193,6 +193,7 @@ export default {
       options.forEach(item => {
         if (handleBtns[item]) insideBtns.push(handleBtns[item])
       })
+      console.log('item', item)
       let btns = item.button ? [].concat(insideBtns, item.button) : insideBtns
       item.render = (h, params) => {
         params.tableData = this.value

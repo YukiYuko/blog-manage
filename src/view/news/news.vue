@@ -41,20 +41,20 @@ export default {
           options: ['delete'],
           button: [
             (h, params, vm) => {
-              return h('Poptip', {
+              return h('Button', {
                 props: {
-                  confirm: true,
-                  title: '你确定要删除吗?'
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginLeft: '5px'
                 },
                 on: {
-                  'on-ok': () => {
-                    vm.$emit('on-delete', params)
-                    vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
+                  click: () => {
+                    this.show(params.index)
                   }
                 }
-              }, [
-                h('Button', '自定义删除')
-              ])
+              }, 'View')
             }
           ]
         }
@@ -69,6 +69,12 @@ export default {
     exportExcel () {
       this.$refs.tables.exportCsv({
         filename: `table-${(new Date()).valueOf()}.csv`
+      })
+    },
+    show (index) {
+      this.$Modal.info({
+        title: '标题',
+        content: `Name：${this.tableData[index].title}`
       })
     }
   },
