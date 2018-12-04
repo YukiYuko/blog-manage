@@ -74,14 +74,14 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
-          let data = {
+          let params = {
             title: this.formValidate.title,
             content: this.formValidate.content,
             tags: this.formValidate.tags
           }
-          createNews(data).then((res) => {
-            console.log(res)
+          createNews(params).then((res) => {
+            const {data} = res
+            this.$Message.success(data.message)
           })
         } else {
           this.$Message.error('Fail!')
