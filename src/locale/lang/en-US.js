@@ -38,5 +38,9 @@ export default {
   params: 'Params',
   cropper_page: 'Cropper',
   message_page: 'Message Center',
-  tree_table_page: 'Tree Table'
+  tree_table_page: 'Tree Table',
+  // 以下为新增
+  news: 'News',
+  news_page: 'News Page',
+  news_publish: 'News Publish'
 }

@@ -426,12 +426,12 @@ export default [
       },
       {
         path: 'news_publish',
-        name: '发布新闻',
+        name: 'news_publish',
         meta: {
           icon: 'ios-navigate',
-          title: '新闻列表详情'
+          title: '发布新闻'
         },
-        component: () => import('@/view/news/edit.vue')
+        component: () => import('@/view/news/news_publish.vue')
       }
     ]
   },

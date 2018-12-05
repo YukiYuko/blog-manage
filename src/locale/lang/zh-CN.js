@@ -41,5 +41,6 @@ export default {
   tree_table_page: '树状表格',
   // 以下为新增
   news: '新闻',
-  news_page: '新闻列表'
+  news_page: '新闻列表',
+  news_publish: '发布新闻'
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="news-edit">
+  <div class="news_publish">
     <Card>
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <FormItem label="标题" prop="title">
@@ -26,6 +26,7 @@
 import { tags } from '../../const/index'
 import {createNews} from '../../api/news'
 export default {
+  name: 'news_publish',
   data () {
     return {
       tags: tags,
