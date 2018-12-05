@@ -19,6 +19,6 @@ export const listNews = (data) => {
   return axios.request({
     url: '/news/newsList',
     data,
-    method: 'get'
+    method: 'post'
   })
 }

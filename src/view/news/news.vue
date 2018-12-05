@@ -30,10 +30,23 @@ export default {
           key: 'tags',
           render: (h, params) => {
             const tags = params.row.tags
-            return tags.map(item => h('a', item.name))
+            return tags.map((item, index) => {
+              if (tags.length - 1 === index) {
+                return h('a', item)
+              } else {
+                return h('a', item + '、')
+              }
+            })
           }
         },
-        {title: '发布时间', key: 'createTime', sortable: true},
+        {title: '发布时间',
+          key: 'createdAt',
+          sortable: true,
+          render: (h, params) => {
+            const createdAt = params.row.createdAt
+            return h('span', this.getDate(createdAt))
+          }
+        },
         {title: '发布者', key: 'createAuthor'},
         {
           title: '操作',
@@ -76,13 +89,21 @@ export default {
         title: '标题',
         content: `Name：${this.tableData[index].title}`
       })
+    },
+    getNews () {
+      const params = {
+        page: 2,
+        limit: 10
+      }
+      listNews(params).then(res => {
+        const {data} = res
+        console.log(data)
+        this.tableData = data.data
+      })
     }
   },
   mounted () {
-    listNews().then(res => {
-      console.log(res)
-      // this.tableData = res.data
-    })
+    this.getNews()
   }
 }
 </script>

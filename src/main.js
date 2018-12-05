@@ -12,6 +12,11 @@ import installPlugin from '@/plugin'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import TreeTable from 'tree-table-vue'
+import filters from './filter'
+import Mixin from './mixins'
+
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
+Vue.mixin(Mixin)
 // 实际打包时应该不引入mock
 /* eslint-disable */
 if (process.env.NODE_ENV !== 'production') require('@/mock')
