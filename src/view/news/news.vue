@@ -15,7 +15,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getTableData } from '@/api/data'
+import { listNews } from '@/api/news'
 export default {
   name: 'news',
   components: {
@@ -79,9 +79,9 @@ export default {
     }
   },
   mounted () {
-    getTableData().then(res => {
+    listNews().then(res => {
       console.log(res)
-      this.tableData = res.data
+      // this.tableData = res.data
     })
   }
 }
