@@ -1,4 +1,5 @@
 import axios from '@/libs/api.request'
+const prefix = '/users'
 
 export const login = ({ userName, password }) => {
   const data = {
@@ -6,7 +7,7 @@ export const login = ({ userName, password }) => {
     password
   }
   return axios.request({
-    url: 'login',
+    url: `${prefix}/login`,
     data,
     method: 'post'
   })

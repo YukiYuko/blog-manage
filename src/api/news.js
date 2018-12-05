@@ -1,4 +1,5 @@
 import axios from '@/libs/api.request'
+const prefix = '/news'
 /*
 * @params title String: 标题
 * @params content String: 内容
@@ -6,7 +7,7 @@ import axios from '@/libs/api.request'
 * */
 export const createNews = (data) => {
   return axios.request({
-    url: '/news/createNews',
+    url: `${prefix}/createNews`,
     data,
     method: 'post'
   })
@@ -17,7 +18,7 @@ export const createNews = (data) => {
 * */
 export const listNews = (data) => {
   return axios.request({
-    url: '/news/newsList',
+    url: `${prefix}/newsList`,
     data,
     method: 'post'
   })
