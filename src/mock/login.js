@@ -1,10 +1,10 @@
 import { getParams } from '@/libs/util'
 const USER_MAP = {
-  super_admin: {
-    name: 'super_admin',
+  Yuki: {
+    name: 'Yuki',
     user_id: '1',
-    access: ['super_admin', 'admin'],
-    token: 'super_admin',
+    access: ['Yuki', 'admin'],
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDQwNjcwOTcsImV4cCI6MTU0NDA2NzE1N30.stRphMM5GmQWu3sAkgfDwPlW1CPwTSvskpewgj62zIM',
     avator: 'https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png'
   },
   admin: {

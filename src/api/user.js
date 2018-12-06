@@ -14,12 +14,13 @@ export const login = ({ userName, password }) => {
 }
 
 export const getUserInfo = (token) => {
+  const data = {
+    token
+  }
   return axios.request({
-    url: 'get_info',
-    params: {
-      token
-    },
-    method: 'get'
+    url: `${prefix}/userInfo`,
+    data,
+    method: 'post'
   })
 }
 

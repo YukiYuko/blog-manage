@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
-// import { Spin } from 'iview'
+import { Message } from 'iview'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
   let info = {
@@ -48,10 +48,19 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.destroy(url)
       const { data, status } = res
-      return { data, status }
+      if (data.code === 200) {
+        return { data, status }
+      } else {
+        Message.error(data.info)
+        // throw (res)
+        return Promise.reject(res)
+      }
     }, error => {
+      console.log('响应拦截失败', error)
       this.destroy(url)
       let errorInfo = error.response
+      console.log('errorInfo', errorInfo)
+      Message.error(errorInfo.data.info)
       if (!errorInfo) {
         const { request: { statusText, status }, config } = JSON.parse(JSON.stringify(error))
         errorInfo = {

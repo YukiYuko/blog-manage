@@ -34,6 +34,7 @@ export default {
             name: this.$config.homeName
           })
         })
+      }).catch(() => {
       })
     }
   }

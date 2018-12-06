@@ -81,9 +81,10 @@ export default {
           userName,
           password
         }).then(res => {
+          console.log('res', res)
           const data = res.data
           commit('setToken', data.token)
-          resolve()
+          resolve(data)
         }).catch(err => {
           reject(err)
         })
@@ -112,9 +113,9 @@ export default {
           getUserInfo(state.token).then(res => {
             const data = res.data
             commit('setAvator', data.avator)
-            commit('setUserName', data.name)
+            commit('setUserName', data.userName)
             commit('setUserId', data.user_id)
-            commit('setAccess', data.access)
+            // commit('setAccess', [data.userName])
             commit('setHasGetInfo', true)
             resolve(data)
           }).catch(err => {
