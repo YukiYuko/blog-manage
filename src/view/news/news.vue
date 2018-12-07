@@ -92,7 +92,7 @@ export default {
     },
     getNews () {
       const params = {
-        page: 2,
+        page: 8,
         limit: 10
       }
       listNews(params).then(res => {

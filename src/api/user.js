@@ -38,7 +38,7 @@ export const getUnreadCount = () => {
   })
 }
 
-export const getMessage = () => {
+export const getMessagetUnreadMessageCountge = () => {
   return axios.request({
     url: 'message/init',
     method: 'get'
