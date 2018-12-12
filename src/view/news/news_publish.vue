@@ -2,6 +2,22 @@
   <div class="news_publish">
     <Card>
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+        <FormItem label="头图" prop="imageUrl">
+          <Upload
+            :show-upload-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :format="['jpg','jpeg','png']"
+            action="http://localhost:3002/upload/single">
+            <div v-if="!formValidate.imageUrl" class="before-select" flex items="center" dir="column" justify="center">
+              <Icon type="ios-images-outline" />
+              <p>上传图片</p>
+            </div>
+            <div class="after-select" v-if="formValidate.imageUrl">
+              <img :src="formValidate.imageUrl" alt="">
+            </div>
+          </Upload>
+        </FormItem>
         <FormItem label="标题" prop="title">
           <Input v-model="formValidate.title" placeholder="请输入标题"></Input>
         </FormItem>
@@ -38,18 +54,19 @@ export default {
         tags: [],
         date: '',
         time: '',
-        content: ''
+        content: '',
+        imageUrl: ''
       },
       ruleValidate: {
         title: [
-          { required: true, message: '标题不能为空', trigger: 'blur' }
+          { required: true, message: '标题不能为空', trigger: 'change' }
         ],
         mail: [
           { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
           { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
         ],
-        city: [
-          { required: true, message: 'Please select the city', trigger: 'change' }
+        imageUrl: [
+          { required: true, message: '请上传头像', trigger: 'blur' }
         ],
         gender: [
           { required: true, message: 'Please select gender', trigger: 'change' }
@@ -78,7 +95,8 @@ export default {
           let params = {
             title: this.formValidate.title,
             content: this.formValidate.content,
-            tags: this.formValidate.tags
+            tags: this.formValidate.tags,
+            image: this.formValidate.imageUrl
           }
           createNews(params).then((res) => {
             const {data} = res
@@ -88,10 +106,47 @@ export default {
           this.$Message.error('Fail!')
         }
       })
+      return false
     },
     handleReset (name) {
       this.$refs[name].resetFields()
+    },
+    // 上传成功
+    handleAvatarSuccess (res, file) {
+      this.formValidate.imageUrl = res.data.url
+    },
+    // 上传之前
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg' || 'image/jpg' || 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 10
+
+      if (!isJPG) {
+        this.$Message.error('上传头像图片只能是 JPG/JPEG/PNG 格式!')
+      }
+      if (!isLt2M) {
+        this.$Message.error('上传头像图片大小不能超过 10MB!')
+      }
+      return isJPG && isLt2M
     }
   }
 }
 </script>
+<style lang="less">
+.news_publish{
+  .before-select{
+    width: 150px; height: 150px;
+    border: 1px solid #f5f5f5;
+    font-size: 40px;
+    cursor: pointer;
+    p{
+      font-size: 16px;
+    }
+  }
+  .after-select{
+    img{
+      width: 150px; height: 150px;
+      display: block;
+    }
+  }
+}
+</style>
