@@ -44,7 +44,7 @@
 import { tags } from '../../const/index'
 import {createNews, newsDetail, newsUpdate} from '../../api/news'
 export default {
-  name: 'news_publish',
+  name: 'news_edit',
   data () {
     return {
       tags: tags,
@@ -90,11 +90,14 @@ export default {
       }
     }
   },
-  created () {
-    this.id = this.$route.params.id
-    console.log(1111111)
+  watch: {
+    '$route' () {
+      this.id = this.$route.params.id
+      this.getDetail(this.id)
+    }
   },
   mounted () {
+    this.id = this.$route.params.id
     if (this.id) {
       this.getDetail(this.id)
     }
@@ -174,21 +177,21 @@ export default {
 }
 </script>
 <style lang="less">
-.news_publish{
-  .before-select{
-    width: 150px; height: 150px;
-    border: 1px solid #f5f5f5;
-    font-size: 40px;
-    cursor: pointer;
-    p{
-      font-size: 16px;
-    }
-  }
-  .after-select{
-    img{
+  .news_publish{
+    .before-select{
       width: 150px; height: 150px;
-      display: block;
+      border: 1px solid #f5f5f5;
+      font-size: 40px;
+      cursor: pointer;
+      p{
+        font-size: 16px;
+      }
+    }
+    .after-select{
+      img{
+        width: 150px; height: 150px;
+        display: block;
+      }
     }
   }
-}
 </style>

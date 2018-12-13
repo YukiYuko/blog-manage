@@ -8,24 +8,17 @@ const btns = {
       on: {
         'on-ok': () => {
           vm.$emit('on-delete', params)
-          vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
+          // vm.$emit('input', params)
+          // vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
         }
       }
     }, [
       h('Button', {
         props: {
-          type: 'text',
-          ghost: true
+          type: 'error',
+          size: 'small'
         }
-      }, [
-        h('Icon', {
-          props: {
-            type: 'md-trash',
-            size: 18,
-            color: '#000000'
-          }
-        })
-      ])
+      }, '删除')
     ])
   }
 }

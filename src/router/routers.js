@@ -432,6 +432,17 @@ export default [
           title: '发布新闻'
         },
         component: () => import('@/view/news/news_publish.vue')
+      },
+      {
+        path: 'news_edit/:id',
+        name: 'news_edit',
+        meta: {
+          icon: 'ios-navigate',
+          title: '编辑新闻',
+          hideInMenu: true,
+          notCache: false
+        },
+        component: () => import('@/view/news/news_edit.vue')
       }
     ]
   },

@@ -15,7 +15,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { listNews } from '@/api/news'
+import { listNews, newsDelete } from '@/api/news'
 export default {
   name: 'news',
   components: {
@@ -64,10 +64,10 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.show(params.index)
+                    this.go({name: 'news_edit', params: {id: params.row._id}})
                   }
                 }
-              }, 'View')
+              }, '查看')
             }
           ]
         }
@@ -78,6 +78,15 @@ export default {
   methods: {
     handleDelete (params) {
       console.log(params)
+      let id = params.row._id
+      newsDelete({id}).then((res) => {
+        const {data} = res
+        if (data.code === 200) {
+          this.tableData = this.tableData.filter((item, index) => index !== params.row.initRowIndex)
+        } else {
+          this.$Message.error('删除失败')
+        }
+      })
     },
     exportExcel () {
       this.$refs.tables.exportCsv({
@@ -87,12 +96,12 @@ export default {
     show (index) {
       this.$Modal.info({
         title: '标题',
-        content: `Name：${this.tableData[index].title}`
+        content: `${this.tableData[index].title}`
       })
     },
     getNews () {
       const params = {
-        page: 8,
+        page: 1,
         limit: 10
       }
       listNews(params).then(res => {
