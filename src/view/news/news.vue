@@ -8,6 +8,7 @@
               v-model="tableData"
               :columns="columns"
               @on-delete="handleDelete"/>
+      <Page :total="total" show-total @on-change="pageChange"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
   </div>
@@ -72,7 +73,10 @@ export default {
           ]
         }
       ],
-      tableData: []
+      tableData: [],
+      total: 0,
+      page: 1,
+      limit: 10
     }
   },
   methods: {
@@ -101,14 +105,18 @@ export default {
     },
     getNews () {
       const params = {
-        page: 1,
-        limit: 10
+        page: this.page,
+        limit: this.limit
       }
       listNews(params).then(res => {
-        const {data} = res
-        console.log(data)
+        const {data} = res.data
+        this.total = data.total
         this.tableData = data.data
       })
+    },
+    pageChange (page) {
+      this.page = page
+      this.getNews()
     }
   },
   mounted () {
