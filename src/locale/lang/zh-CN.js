@@ -43,5 +43,7 @@ export default {
   news: '新闻',
   news_page: '新闻列表',
   news_publish: '发布新闻',
-  news_edit: '编辑新闻'
+  news_edit: '编辑新闻',
+  system: '系统',
+  system_setting: '系统设置'
 }

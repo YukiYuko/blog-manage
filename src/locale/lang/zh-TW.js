@@ -42,5 +42,8 @@ export default {
   // 以下为新增
   news: '新聞',
   news_page: '新聞列表',
-  news_publish: '發佈新聞'
+  news_publish: '發佈新聞',
+  news_edit: '编辑新闻',
+  system: '系統',
+  system_setting: '系統設置'
 }

@@ -446,6 +446,25 @@ export default [
       }
     ]
   },
+  {
+    path: '/system',
+    name: 'system',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'system_setting',
+        name: 'system_setting',
+        meta: {
+          icon: 'ios-navigate',
+          title: '系统设置'
+        },
+        component: () => import('@/view/system/system_setting.vue')
+      }
+    ]
+  },
   // 以上为新增*********************
   {
     path: '/argu',

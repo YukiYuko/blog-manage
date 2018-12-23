@@ -55,7 +55,7 @@ class HttpRequest {
       } else {
         Message.error(data.info)
         // throw (res)
-        return Promise.reject(res)
+        // return Promise.reject(res)
       }
     }, error => {
       console.log('响应拦截失败', error)

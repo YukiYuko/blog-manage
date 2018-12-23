@@ -28,9 +28,12 @@
             <Checkbox :label="item.name" v-for="(item, index) in tags" :key="index"></Checkbox>
           </CheckboxGroup>
         </FormItem>
-        <FormItem label="内容" prop="content">
-          <Input v-model="formValidate.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                 placeholder="请输入内容"></Input>
+        <FormItem label="描述" prop="desc">
+          <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                 placeholder="请输入描述"></Input>
+        </FormItem>
+        <FormItem label="描述" prop="content">
+          <editor ref="editor" :value="formValidate.content" @on-change="handleChange"/>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
@@ -43,6 +46,7 @@
 <script>
 import { tags } from '../../const/index'
 import {createNews, newsDetail, newsUpdate} from '../../api/news'
+import Editor from '_c/editor'
 export default {
   name: 'news_publish',
   data () {
@@ -57,7 +61,8 @@ export default {
         date: '',
         time: '',
         content: '',
-        imageUrl: ''
+        imageUrl: '',
+        desc: ''
       },
       ruleValidate: {
         title: [
@@ -84,11 +89,17 @@ export default {
           { required: true, type: 'string', message: 'Please select time', trigger: 'change' }
         ],
         content: [
-          { required: true, message: '请输入内容', trigger: 'blur' },
+          { required: true, message: '请输入内容', trigger: 'blur' }
+        ],
+        desc: [
+          { required: true, message: '请输入描述', trigger: 'blur' },
           { type: 'string', min: 20, message: '不能少于20字', trigger: 'blur' }
         ]
       }
     }
+  },
+  components: {
+    Editor
   },
   created () {
     this.id = this.$route.params.id
@@ -169,6 +180,10 @@ export default {
     // 大小不合适
     handleExceededSize () {
       this.$Message.error('上传头像图片大小不能超过 10MB!')
+    },
+    // 富文本
+    handleChange (html, text) {
+      this.formValidate.content = html
     }
   }
 }
