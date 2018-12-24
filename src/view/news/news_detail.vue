@@ -120,6 +120,7 @@ export default {
     console.log(1111)
   },
   created () {
+    this.get_list_tag()
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id
       this.getDetail(id)
@@ -150,7 +151,8 @@ export default {
             title: this.formValidate.title,
             content: this.formValidate.content,
             tags: this.formValidate.tags,
-            image: this.formValidate.imageUrl
+            image: this.formValidate.imageUrl,
+            desc: this.formValidate.desc
           }
           if (this.id) {
             newsUpdate({id: this.id, data: params}).then((res) => {
@@ -163,7 +165,7 @@ export default {
             createNews(params).then((res) => {
               const {data} = res
               if (data.code === 200) {
-                this.$Message.success(data.message)
+                this.$Message.success(data.info)
               }
             })
           }
