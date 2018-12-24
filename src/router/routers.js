@@ -440,7 +440,7 @@ export default [
           icon: 'ios-navigate',
           title: '编辑新闻',
           hideInMenu: true,
-          notCache: false
+          notCache: true
         },
         component: () => import('@/view/news/news_edit.vue')
       }

@@ -4,12 +4,12 @@
       <Tabs value="system-tag">
         <TabPane label="标签设置" name="system-tag">
           <Tag v-for="(item, index) in tags"
-               :key="item._id"
+               :key="index"
                :name="item.name"
                closable
                type="dot"
                @on-close="deleteTag(item)"
-               color="primary">{{ item.name + 1 }}</Tag>
+               color="primary">{{ item.name }}</Tag>
           <Button icon="ios-add" type="dashed" @click="handleAddTags">添加标签</Button>
         </TabPane>
       </Tabs>
@@ -65,7 +65,9 @@ export default {
             return false
           }
           create_tag({name: this.tagText}).then((res) => {
-            this.tags.push(res.data)
+            console.log(res)
+            const {data} = res.data
+            this.tags.push(data)
             this.$Message.success('创建成功')
           })
         }

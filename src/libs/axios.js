@@ -54,7 +54,7 @@ class HttpRequest {
         return { data, status }
       } else {
         Message.error(data.info)
-        // throw (res)
+        throw (res)
         // return Promise.reject(res)
       }
     }, error => {
