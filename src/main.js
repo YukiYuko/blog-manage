@@ -14,6 +14,7 @@ import '@/assets/icons/iconfont.css'
 import TreeTable from 'tree-table-vue'
 import filters from './filter'
 import Mixin from './mixins'
+import VueCropper from 'vue-cropper'
 
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
 Vue.mixin(Mixin)
@@ -25,6 +26,7 @@ Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
 Vue.use(TreeTable)
+Vue.use(VueCropper)
 /**
  * @description 注册admin内置插件
  */

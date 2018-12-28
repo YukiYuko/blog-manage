@@ -3,22 +3,11 @@
     <Card>
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <FormItem label="头图" prop="imageUrl">
-          <Upload
-            :show-upload-list="false"
-            :on-success="handleAvatarSuccess"
-            :on-format-error="handleFormatError"
-            :max-size="10000"
-            :on-exceeded-size="handleExceededSize"
-            :format="['jpg','jpeg','png']"
-            action="http://localhost:3002/upload/single">
-            <div v-if="!formValidate.imageUrl" class="before-select" flex items="center" dir="column" justify="center">
-              <Icon type="ios-images-outline" />
-              <p>上传图片</p>
-            </div>
-            <div class="after-select" v-if="formValidate.imageUrl">
-              <img :src="formValidate.imageUrl" alt="">
-            </div>
-          </Upload>
+          <div class="avatar-box">
+            <img class="avatar-show" :src="formValidate.imageUrl || require('../../assets/images/talkingdata.png') " alt="上传头像">
+            <label class="upload-img-btn" for="upload-img">上传图片</label>
+            <input id="upload-img" type="file" @change="upload_img">
+          </div>
         </FormItem>
         <FormItem label="标题" prop="title">
           <Input v-model="formValidate.title" placeholder="请输入标题"></Input>
@@ -41,6 +30,21 @@
         </FormItem>
       </Form>
     </Card>
+    <div class="cropper-img-box" v-if="cropper_box_mark">
+      <vueCropper
+        ref="cropper"
+        :img="cropperData.img"
+        :autoCrop="cropperData.autoCrop"
+        :fixedBox="false"
+        :fixed="false"
+      ></vueCropper>
+      <div class="cropper-img-tool">
+        <button class="cropper-img-tool-btn" @click="rotateRight">顺时针90°</button>
+        <button class="cropper-img-tool-btn" @click="finish">确认</button>
+        <button class="cropper-img-tool-btn" @click="cropper_box_mark = false">取消</button>
+        <button class="cropper-img-tool-btn" @click="rotateLeft">逆时针90°</button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -58,6 +62,15 @@ export default {
   },
   data () {
     return {
+      cropper_box_mark: false,
+      cropperData: {
+        img: '',
+        autoCrop: true,
+        autoCropWidth: 200,
+        autoCropHeight: 200
+        // fixedNumber: [16, 9],
+        // fixedBox: true
+      },
       tags: [],
       formValidate: {
         title: '',
@@ -207,6 +220,35 @@ export default {
     // 富文本
     handleChange (html, text) {
       this.formValidate.content = html
+    },
+    rotateRight () {
+      this.$refs.cropper.rotateRight()
+    },
+    rotateLeft () {
+      this.$refs.cropper.rotateLeft()
+    },
+    finish () {
+      this.$refs.cropper.getCropData((data) => {
+        this.formValidate.imageUrl = data
+        this.cropper_box_mark = false
+      })
+    },
+    upload_img (e) {
+      let obj = e.target
+      let file = obj.files[0]
+      let temArr = file.name.split('.')
+      let file_suffix = temArr[temArr.length - 1]
+      if (file_suffix !== 'jpg' && file_suffix !== 'png' && file_suffix !== 'jpeg') {
+        this.$Message.error('上传头像图片只能是 JPG/JPEG/PNG 格式!')
+        return
+      }
+      let reader = new FileReader()
+      let _self = this
+      reader.onload = (ev) => {
+        _self.cropperData.img = ev.target.result
+        _self.cropper_box_mark = true
+      }
+      reader.readAsDataURL(file)
     }
   }
 }
@@ -226,6 +268,58 @@ export default {
       img{
         width: 150px; height: 150px;
         display: block;
+      }
+    }
+  }
+  .avatar-box {
+    flex: 1;
+  }
+  #upload-img {
+    opacity: 0;
+    display: none;
+  }
+  .upload-img-btn {
+    width: 100px;
+    border: 1px solid #ccc;
+    display: block;
+    padding: 5px 15px;
+    transform: translateY(40%);
+    cursor: pointer;
+    text-align: center;
+  }
+  .form-itme-avatar {
+    height: auto;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+  .avatar-show {
+    display: block;
+    width: 150px;
+    height: 150px;
+  }
+  .cropper-img-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    .cropper-img-tool {
+      position: absolute;
+      z-index: 2;
+      bottom: 20px;
+      left: 0;
+      text-align: center;
+      width: 100%;
+      .cropper-img-tool-btn {
+        width: 140px;
+        height: 50px;
+        font-size: 18px;
+        cursor: pointer;
+        & + .cropper-img-tool-btn {
+          margin-left: 50px;
+        }
       }
     }
   }

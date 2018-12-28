@@ -20,6 +20,7 @@ class HttpRequest {
   getInsideConfig () {
     const config = {
       baseURL: this.baseUrl,
+      withCredentials: true,
       headers: {
         //
       }
@@ -37,11 +38,16 @@ class HttpRequest {
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
+      console.log('store.state.user.token', store.state.user.token)
+      if (store.state.user.token) {
+        config.headers.Authorization = 'Bearer ' + store.state.user.token
+      }
       // 添加全局的loading...
       if (!Object.keys(this.queue).length) {
         Spin.show() // 不建议开启，因为界面不友好
       }
       this.queue[url] = true
+
       return config
     }, error => {
       return Promise.reject(error)
@@ -76,6 +82,7 @@ class HttpRequest {
     })
   }
   request (options) {
+    // axios.defaults.withCredentials = true;
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)

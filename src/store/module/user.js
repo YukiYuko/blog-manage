@@ -8,7 +8,7 @@ import {
   removeReaded,
   restoreTrash,
   getUnreadCount
-} from '@/api/user'
+} from '@/api/admin'
 import { setToken, getToken } from '@/libs/util'
 
 export default {
@@ -82,7 +82,7 @@ export default {
           password
         }).then(res => {
           console.log('res', res)
-          const data = res.data
+          const {data} = res.data
           commit('setToken', data.token)
           resolve(data)
         }).catch(err => {
