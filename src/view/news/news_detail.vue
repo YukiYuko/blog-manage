@@ -37,6 +37,7 @@
         :autoCrop="cropperData.autoCrop"
         :fixedBox="false"
         :fixed="false"
+        :outputSize="0.5"
       ></vueCropper>
       <div class="cropper-img-tool">
         <button class="cropper-img-tool-btn" @click="rotateRight">顺时针90°</button>
@@ -230,6 +231,7 @@ export default {
     finish () {
       this.$refs.cropper.getCropData((data) => {
         this.formValidate.imageUrl = data
+        console.log(data)
         this.cropper_box_mark = false
       })
     },
