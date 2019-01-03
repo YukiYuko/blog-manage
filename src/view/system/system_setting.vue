@@ -24,6 +24,20 @@
         </TabPane>
       </Tabs>
     </Card>
+    <Modal
+      v-model="show_create"
+      title="新增"
+      @on-ok="ok"
+    >
+      <Form>
+        <FormItem v-show="type === 2" label="key" prop="key">
+          <Input v-model="key" placeholder="Enter your name"></Input>
+        </FormItem>
+        <FormItem label="名字" prop="tagText">
+          <Input v-model="tagText" placeholder="Enter your name"></Input>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 
@@ -35,9 +49,11 @@ export default {
     return {
       tags: [],
       tagText: '',
+      key: '',
       types: [],
       typeText: '',
-      type: 1
+      type: 1,
+      show_create: false
     }
   },
   computed: {
@@ -67,50 +83,34 @@ export default {
     deleteTag ({_id}) {
       console.log(_id)
     },
-    handleAddTags (type) {
-      this.type = type
-      this.$Modal.confirm({
-        render: (h) => {
-          return h('Input', {
-            props: {
-              value: this.tagText,
-              autofocus: true,
-              placeholder: 'Please enter your name...'
-            },
-            on: {
-              input: (val) => {
-                if (type === 1) {
-                  this.tagText = val
-                } else {
-                  this.typeText = val
-                }
-              }
-            }
-          })
-        },
-        onOk: () => {
-          if (this.type === 1) {
-            if (!this.tagText) {
-              this.$Message.error('请输入标签名')
-              return false
-            }
-          } else {
-            if (!this.typeText) {
-              this.$Message.error('请输入类型名')
-              return false
-            }
-          }
-          create_tag({name: this.type === 1 ? this.tagText : this.typeText, type: this.type}).then((res) => {
-            const {data} = res.data
-            if (this.type === 1) {
-              this.tags.push(data)
-            } else {
-              this.types.push(data)
-            }
-            this.$Message.success('创建成功')
-          })
+    ok () {
+      if (this.type === 1) {
+        if (!this.tagText) {
+          this.$Message.error('请输入名字')
+          return false
         }
+      } else {
+        if (!this.key) {
+          this.$Message.error('请输入key')
+          return false
+        }
+        if (!this.tagText) {
+          this.$Message.error('请输入名字')
+          return false
+        }
+      }
+      create_tag({name: this.tagText, type: this.type, key: this.key}).then((res) => {
+        const {data} = res.data
+        if (this.type === 1) {
+          this.tags.push(data)
+        } else {
+          this.types.push(data)
+        }
+        this.$Message.success('创建成功')
       })
+    },
+    handleAddTags () {
+      this.show_create = true
     }
   }
 }

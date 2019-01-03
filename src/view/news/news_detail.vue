@@ -9,6 +9,13 @@
             <input id="upload-img" type="file" @change="upload_img">
           </div>
         </FormItem>
+        <FormItem label="类型" prop="newsType">
+          <Select v-model="formValidate.newsType" placeholder="选择类型">
+            <Option value="beijing">New York</Option>
+            <Option value="shanghai">London</Option>
+            <Option value="shenzhen">Sydney</Option>
+          </Select>
+        </FormItem>
         <FormItem label="标题" prop="title">
           <Input v-model="formValidate.title" placeholder="请输入标题"></Input>
         </FormItem>
@@ -74,6 +81,7 @@ export default {
       },
       tags: [],
       formValidate: {
+        newsType: '',
         title: '',
         mail: '',
         city: '',
@@ -142,7 +150,7 @@ export default {
   },
   methods: {
     get_list_tag () {
-      list_tag().then((res) => {
+      list_tag({type: 1}).then((res) => {
         let {data} = res.data
         this.tags = data
       })
@@ -155,6 +163,7 @@ export default {
           this.formValidate.content = data.data.content
           this.formValidate.tags = data.data.tags
           this.formValidate.imageUrl = data.data.image
+          this.formValidate.desc = data.data.desc
         }
       })
     },
