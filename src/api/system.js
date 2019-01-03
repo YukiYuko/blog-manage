@@ -3,9 +3,10 @@ const prefix = '/system'
 const prefix_sub = '/tag'
 
 // 新建标签
-export const create_tag = ({ name }) => {
+export const create_tag = ({ name, type }) => {
   const data = {
-    name
+    name,
+    type
   }
   return axios.request({
     url: `${prefix}${prefix_sub}/create`,
@@ -13,9 +14,9 @@ export const create_tag = ({ name }) => {
     method: 'post'
   })
 }
-export const list_tag = () => {
+export const list_tag = ({ type }) => {
   return axios.request({
-    url: `${prefix}${prefix_sub}/list`,
+    url: `${prefix}${prefix_sub}/list?type=${type}`,
     method: 'get'
   })
 }

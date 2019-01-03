@@ -1,16 +1,26 @@
 <template>
   <div class="system_setting">
     <Card>
-      <Tabs value="system-tag">
+      <Tabs value="system-tag" @on-click="switchTab">
         <TabPane label="标签设置" name="system-tag">
           <Tag v-for="(item, index) in tags"
                :key="index"
                :name="item.name"
                closable
                type="dot"
-               @on-close="deleteTag(item)"
+               @on-close="deleteTag(item, 1)"
                color="primary">{{ item.name }}</Tag>
-          <Button icon="ios-add" type="dashed" @click="handleAddTags">添加标签</Button>
+          <Button icon="ios-add" type="dashed" @click="handleAddTags(1)">添加标签</Button>
+        </TabPane>
+        <TabPane label="类型设置" name="system-type">
+          <Tag v-for="(item, index) in types"
+               :key="index"
+               :name="item.name"
+               closable
+               type="dot"
+               @on-close="deleteTag(item, 2)"
+               color="primary">{{ item.name }}</Tag>
+          <Button icon="ios-add" type="dashed" @click="handleAddTags(2)">添加类型</Button>
         </TabPane>
       </Tabs>
     </Card>
@@ -24,25 +34,41 @@ export default {
   data () {
     return {
       tags: [],
-      tagText: ''
+      tagText: '',
+      types: [],
+      typeText: '',
+      type: 1
     }
   },
   computed: {
   },
   mounted () {
-    this.get_list_tag()
+    this.get_list_tag(1)
+    this.get_list_tag(2)
   },
   methods: {
-    get_list_tag () {
-      list_tag().then((res) => {
+    switchTab (name) {
+      if (name === 'system-tag') {
+        this.type = 1
+      } else if (name === 'system-type') {
+        this.type = 2
+      }
+    },
+    get_list_tag (type) {
+      list_tag({type}).then((res) => {
         let {data} = res.data
-        this.tags = data
+        if (type === 1) {
+          this.tags = data
+        } else {
+          this.types = data
+        }
       })
     },
     deleteTag ({_id}) {
       console.log(_id)
     },
-    handleAddTags () {
+    handleAddTags (type) {
+      this.type = type
       this.$Modal.confirm({
         render: (h) => {
           return h('Input', {
@@ -53,21 +79,34 @@ export default {
             },
             on: {
               input: (val) => {
-                this.tagText = val
-                console.log(this.tagText)
+                if (type === 1) {
+                  this.tagText = val
+                } else {
+                  this.typeText = val
+                }
               }
             }
           })
         },
         onOk: () => {
-          if (!this.tagText) {
-            this.$Message.error('请输入标签名')
-            return false
+          if (this.type === 1) {
+            if (!this.tagText) {
+              this.$Message.error('请输入标签名')
+              return false
+            }
+          } else {
+            if (!this.typeText) {
+              this.$Message.error('请输入类型名')
+              return false
+            }
           }
-          create_tag({name: this.tagText}).then((res) => {
-            console.log(res)
+          create_tag({name: this.type === 1 ? this.tagText : this.typeText, type: this.type}).then((res) => {
             const {data} = res.data
-            this.tags.push(data)
+            if (this.type === 1) {
+              this.tags.push(data)
+            } else {
+              this.types.push(data)
+            }
             this.$Message.success('创建成功')
           })
         }
