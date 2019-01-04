@@ -11,9 +11,7 @@
         </FormItem>
         <FormItem label="类型" prop="newsType">
           <Select v-model="formValidate.newsType" placeholder="选择类型">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
+            <Option v-for="(item, index) in types" :key="index" :value="item.key">{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem label="标题" prop="title">
@@ -80,6 +78,7 @@ export default {
         // fixedBox: true
       },
       tags: [],
+      types: [],
       formValidate: {
         newsType: '',
         title: '',
@@ -96,6 +95,9 @@ export default {
       ruleValidate: {
         title: [
           { required: true, message: '标题不能为空', trigger: 'change' }
+        ],
+        newsType: [
+          { required: true, message: '类型不能为空', trigger: 'change' }
         ],
         mail: [
           { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
@@ -143,16 +145,21 @@ export default {
   },
   created () {
     this.get_list_tag()
+    this.get_list_tag(2)
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id
       this.getDetail(id)
     }
   },
   methods: {
-    get_list_tag () {
-      list_tag({type: 1}).then((res) => {
+    get_list_tag (type = 1) {
+      list_tag({type}).then((res) => {
         let {data} = res.data
-        this.tags = data
+        if (type === 1) {
+          this.tags = data
+        } else {
+          this.types = data
+        }
       })
     },
     getDetail (id) {
@@ -175,7 +182,8 @@ export default {
             content: this.formValidate.content,
             tags: this.formValidate.tags,
             image: this.formValidate.imageUrl,
-            desc: this.formValidate.desc
+            desc: this.formValidate.desc,
+            newsType: this.formValidate.newsType
           }
           if (this.id) {
             newsUpdate({id: this.id, data: params}).then((res) => {
